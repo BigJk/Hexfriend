@@ -73,19 +73,9 @@ export const handlers = {
 			let xBeforeZoom = worldX(pan);
 			let yBeforeZoom = worldY(pan);
 
-			let zoomFactor = 1.15;
+			pan.zoomScale += e.deltaY / 1000;
+			pan.zoomScale = Math.min(Math.max(pan.zoomScale, 0.05), 10);
 
-			if (Math.abs(e.deltaY) < 3) {
-				zoomFactor = 1.025;
-			}
-
-			if (e.deltaY < 0) {
-				pan.zoomScale *= zoomFactor;
-			} else {
-				pan.zoomScale /= zoomFactor;
-			}
-
-			// Move the screen
 			let xAfterZoom = worldX(pan);
 			let yAfterZoom = worldY(pan);
 
