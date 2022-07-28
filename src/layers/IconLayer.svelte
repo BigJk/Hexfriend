@@ -2,7 +2,7 @@
 	import type * as PIXI from 'pixi.js';
 	import { Sprite } from 'svelte-pixi';
 
-	import * as Panning from 'src/lib/panning';
+	import * as Panning from 'src/stores/panning';
 
 	import type { icon_data } from 'src/types/data';
 	import type { TerrainHexField } from 'src/types/terrain';

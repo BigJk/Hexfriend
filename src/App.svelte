@@ -1,5 +1,6 @@
 <script lang="ts">
 	import * as PIXI from 'pixi.js';
+	import * as Panning from 'src/stores/panning';
 	import { tick } from 'svelte';
 	import { Container, Pixi } from 'svelte-pixi';
 
@@ -16,7 +17,6 @@
 	import type { saveData } from 'src/lib/defaultSaveData';
 	import DEFAULTSAVEDATA from 'src/lib/defaultSaveData';
 	import { download } from 'src/lib/download2';
-	import * as Panning from 'src/lib/panning';
 	import { collapseWaveGen } from 'src/lib/terrainGenerator';
 
 	import { coord_system } from 'src/types/cordinates';

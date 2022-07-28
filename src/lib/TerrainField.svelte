@@ -4,8 +4,9 @@
 	import { onMount } from 'svelte';
 	import { Container, Graphics } from 'svelte-pixi';
 
-	import * as Panning from 'src/lib/panning';
 	import { collapseWaveGen } from 'src/lib/terrainGenerator';
+
+	import * as Panning from 'src/stores/panning';
 
 	import { map_type } from 'src/types/settings';
 	import type { TerrainHex, TerrainHexField } from 'src/types/terrain';

@@ -2,7 +2,7 @@
 	import * as PIXI from 'pixi.js';
 	import { Container, Graphics } from 'svelte-pixi';
 
-	import * as Panning from 'src/lib/panning';
+	import * as Panning from 'src/stores/panning';
 
 	import type { path_data } from 'src/types/data';
 	import type { path } from 'src/types/path';
