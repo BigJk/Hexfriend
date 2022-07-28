@@ -17,7 +17,7 @@
 	import { collapseWaveGen } from 'src/lib/terrainGenerator';
 
 	import type { saveData } from 'src/defaults/defaultSaveData';
-	import DEFAULTSAVEDATA from 'src/defaults/defaultSaveData';
+	import DEFAULT_SAVEDATA from 'src/defaults/defaultSaveData';
 
 	import * as Panning from 'src/stores/panning';
 	import * as TField from 'src/stores/tfield';
@@ -43,7 +43,7 @@
 
 	/* STATE */
 
-	let loadedSave: saveData = DEFAULTSAVEDATA;
+	let loadedSave: saveData = DEFAULT_SAVEDATA;
 	let loadedId: number | null = null;
 
 	let appState: 'normal' | 'tilesetCreator' | 'iconsetCreator' = 'normal';
@@ -309,7 +309,7 @@
 	function createNewMap() {
 		/* TODO: Save Data Checking */
 
-		load(JSON.parse(JSON.stringify(DEFAULTSAVEDATA)), null);
+		load(JSON.parse(JSON.stringify(DEFAULT_SAVEDATA)), null);
 
 		showSavedMaps = false;
 	}
@@ -429,7 +429,7 @@
 		});
 	}
 
-	loadSave(JSON.parse(JSON.stringify(DEFAULTSAVEDATA)), null); // Same as creating a new map
+	loadSave(JSON.parse(JSON.stringify(DEFAULT_SAVEDATA)), null); // Same as creating a new map
 
 	let pan = {};
 	Panning.store.subscribe((newPan) => {
