@@ -2,13 +2,14 @@
 	import Checkbox from '../components/Checkbox.svelte';
 	import ColorInputPixi from '../components/ColorInputPixi.svelte';
 	import SelectGrid from '../components/SelectGrid.svelte';
+	import * as TField from '../stores/tfield';
 	import type { coordinates_data } from '../types/data';
 	import { map_type } from '../types/settings';
-	import type { TerrainHexField } from '../types/terrain';
 	import type { saveData } from './defaultSaveData';
 
 	import { coord_system } from 'src/types/cordinates';
 	import type { Iconset } from 'src/types/icon';
+	import type { TerrainHexField } from 'src/types/terrain';
 	import type { Tileset } from 'src/types/tilesets';
 
 	export let loadedSave: saveData;
@@ -18,7 +19,6 @@
 
 	export let exportMap: Function;
 
-	export let tfield: TerrainHexField;
 	export let comp_terrainField;
 	export let renderAllHexes: Function;
 	export let renderGrid: Function;
@@ -40,6 +40,11 @@
 	export let load: Function;
 
 	let exportType: 'Export As...' | 'image/png' | 'application/json' = 'Export As...';
+
+	let tfield = {};
+	TField.store.subscribe((newTField) => {
+		tfield = newTField;
+	});
 
 	function changeOrientation() {
 		let t = tfield.hexWidth;

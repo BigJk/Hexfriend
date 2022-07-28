@@ -3,6 +3,7 @@
 	import { Sprite } from 'svelte-pixi';
 
 	import * as Panning from 'src/stores/panning';
+	import * as TField from 'src/stores/tfield';
 
 	import type { icon_data } from 'src/types/data';
 	import type { TerrainHexField } from 'src/types/terrain';
@@ -13,12 +14,16 @@
 	export let icons = [];
 
 	export let L: PIXI.Loader;
-	export let tfield: TerrainHexField;
 	export let selectedTool: tools;
 	export let controls;
 
 	export let data_icon: icon_data;
 	export let iconTextureLookupTable;
+
+	let tfield = {};
+	TField.store.subscribe((newTField) => {
+		tfield = newTField;
+	});
 
 	let pan = {};
 	Panning.store.subscribe((newPan) => {

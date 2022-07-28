@@ -1,6 +1,5 @@
 <script lang="ts">
 	import * as PIXI from 'pixi.js';
-	import * as Panning from 'src/stores/panning';
 	import { tick } from 'svelte';
 	import { Container, Pixi } from 'svelte-pixi';
 
@@ -18,6 +17,9 @@
 	import DEFAULTSAVEDATA from 'src/lib/defaultSaveData';
 	import { download } from 'src/lib/download2';
 	import { collapseWaveGen } from 'src/lib/terrainGenerator';
+
+	import * as Panning from 'src/stores/panning';
+	import * as TField from 'src/stores/tfield';
 
 	import { coord_system } from 'src/types/cordinates';
 	import type { coordinates_data, icon_data, path_data, terrain_data, text_data } from 'src/types/data';
@@ -50,6 +52,11 @@
 
 	let offsetContainer = new PIXI.Container();
 
+	let tfield = {};
+	TField.store.subscribe((newTField) => {
+		tfield = newTField;
+	});
+
 	/* STUFF TO BIND TO */
 	let comp_terrainField;
 	let comp_iconLayer;
@@ -77,7 +84,6 @@
 
 	let loadedTilesets: Tileset[];
 	let loadedIconsets;
-	let tfield: TerrainHexField;
 
 	let controls = {
 		mouseDown: [false, false, false, false, false],
@@ -311,7 +317,8 @@
 		loadedTilesets = data.tilesets;
 		loadedIconsets = data.iconsets;
 
-		tfield = data.TerrainField;
+		TField.store.set(data.TerrainField);
+
 		data_coordinates = data.coords;
 
 		// Load Textures
@@ -441,17 +448,9 @@
 	>
 		<Pixi {app}>
 			<Container instance={offsetContainer} x={pan.offsetX} y={pan.offsetY} scale={{ x: pan.zoomScale, y: pan.zoomScale }}>
-				<TerrainField
-					bind:this={comp_terrainField}
-					bind:data_terrain
-					{controls}
-					{L}
-					bind:tfield
-					{comp_coordsLayer}
-					{symbolTextureLookupTable}
-				/>
+				<TerrainField bind:this={comp_terrainField} bind:data_terrain {controls} {L} {comp_coordsLayer} {symbolTextureLookupTable} />
 
-				<PathLayer bind:this={comp_pathLayer} bind:paths={loadedSave.paths} bind:data_path {pan} {controls} {selectedTool} {tfield} />
+				<PathLayer bind:this={comp_pathLayer} bind:paths={loadedSave.paths} bind:data_path {pan} {controls} {selectedTool} />
 
 				<IconLayer
 					bind:this={comp_iconLayer}
@@ -460,7 +459,6 @@
 					{L}
 					{pan}
 					{selectedTool}
-					{tfield}
 					{controls}
 					{iconTextureLookupTable}
 				/>
@@ -468,7 +466,7 @@
 				<!--
           			Needs Optimization badly
         		-->
-				<CoordsLayer bind:this={comp_coordsLayer} bind:data_coordinates tfield={loadedSave.TerrainField} />
+				<CoordsLayer bind:this={comp_coordsLayer} bind:data_coordinates />
 
 				<TextLayer bind:this={comp_textLayer} bind:texts={loadedSave.texts} bind:data_text {pan} />
 			</Container>
@@ -477,9 +475,9 @@
 
 	<!-- Terrain Buttons -->
 	{#if showTerrainGenerator}
-		<TerrainGenerator {loadedTilesets} {tfield} {comp_terrainField} bind:showTerrainGenerator />
+		<TerrainGenerator {loadedTilesets} {comp_terrainField} bind:showTerrainGenerator />
 	{:else if selectedTool == 'terrain'}
-		<TerrainPanel {loadedTilesets} {tfield} {app} {L} bind:data_terrain {symbolTextureLookupTable} />
+		<TerrainPanel {loadedTilesets} {app} {L} bind:data_terrain {symbolTextureLookupTable} />
 	{:else if selectedTool == 'icon'}
 		<IconPanel {L} {app} {loadedIconsets} bind:data_icon {iconTextureLookupTable} />
 	{:else if selectedTool == 'path'}
@@ -523,7 +521,6 @@
 
 	<MapSettings
 		{loadedSave}
-		bind:tfield
 		bind:showSettings
 		bind:appState
 		bind:showTerrainGenerator

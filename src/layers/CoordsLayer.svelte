@@ -3,6 +3,8 @@
 	import { onMount } from 'svelte';
 	import { Container, Text } from 'svelte-pixi';
 
+	import * as TField from 'src/stores/tfield';
+
 	import { coord_system } from 'src/types/cordinates';
 	import type { coordinates_data } from 'src/types/data';
 	import type { TerrainHexField } from 'src/types/terrain';
@@ -25,8 +27,12 @@
 
 	let cont_textContainer = new PIXI.Container();
 
-	export let tfield: TerrainHexField;
 	export let data_coordinates: coordinates_data;
+
+	let tfield = {};
+	TField.store.subscribe((newTField) => {
+		tfield = newTField;
+	});
 
 	function breakDownHexID(hexId: string) {
 		let brokenId = hexId.split(':');

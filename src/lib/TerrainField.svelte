@@ -7,6 +7,7 @@
 	import { collapseWaveGen } from 'src/lib/terrainGenerator';
 
 	import * as Panning from 'src/stores/panning';
+	import * as TField from 'src/stores/tfield';
 
 	import { map_type } from 'src/types/settings';
 	import type { TerrainHex, TerrainHexField } from 'src/types/terrain';
@@ -31,7 +32,11 @@
 
 	export let controls;
 	export let L;
-	export let tfield: TerrainHexField;
+
+	let tfield = {};
+	TField.store.subscribe((newTField) => {
+		tfield = newTField;
+	});
 
 	let pan = {};
 	Panning.store.subscribe((newPan) => {

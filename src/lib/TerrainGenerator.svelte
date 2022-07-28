@@ -2,6 +2,8 @@
 	import { genHexId, getNeighbours } from '../helpers/hexHelpers';
 	import { download } from './download2';
 
+	import * as TField from 'src/stores/tfield';
+
 	import type { TerrainHex, TerrainHexField } from 'src/types/terrain';
 	import type { Tile, Tileset } from 'src/types/tilesets';
 
@@ -205,9 +207,13 @@
 	}
 
 	export let loadedTilesets: Tileset[];
-	export let tfield: TerrainHexField;
 	export let comp_terrainField;
 	export let showTerrainGenerator: boolean;
+
+	let tfield = {};
+	TField.store.subscribe((newTField) => {
+		tfield = newTField;
+	});
 
 	let importFiles = [];
 

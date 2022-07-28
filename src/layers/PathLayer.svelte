@@ -3,6 +3,7 @@
 	import { Container, Graphics } from 'svelte-pixi';
 
 	import * as Panning from 'src/stores/panning';
+	import * as TField from 'src/stores/tfield';
 
 	import type { path_data } from 'src/types/data';
 	import type { path } from 'src/types/path';
@@ -12,11 +13,15 @@
 
 	export let controls;
 	export let selectedTool;
-	export let tfield: TerrainHexField; // required for snapping
 
 	export let data_path: path_data;
 
 	export let paths: path[] = [];
+
+	let tfield = {};
+	TField.store.subscribe((newTField) => {
+		tfield = newTField;
+	});
 
 	let hoveredPath: path | null = null;
 
