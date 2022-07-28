@@ -1,7 +1,5 @@
-import * as PIXI from 'pixi.js';
-
-import { DEFAULTICONSET } from 'src/lib/defaultIconset';
-import { DEFAULTTILESET } from 'src/lib/defaultTileset';
+import { DEFAULT_ICONSET } from 'src/defaults/defaultIconset';
+import { DEFAULT_TILESET } from 'src/defaults/defaultTileset';
 
 import { coord_system } from 'src/types/cordinates';
 import type { coordinates_data } from 'src/types/data';
@@ -29,10 +27,10 @@ interface saveData {
 	textStyles: any[];
 }
 
-const CURRENTSAVEVERSION = 1;
+const CURRENT_SAVE_VERSION = 1;
 
-let DEFAULTSAVEDATA: saveData = {
-	saveVersion: CURRENTSAVEVERSION,
+let DEFAULT_SAVEDATA: saveData = {
+	saveVersion: CURRENT_SAVE_VERSION,
 	title: '',
 
 	TerrainField: {
@@ -62,9 +60,9 @@ let DEFAULTSAVEDATA: saveData = {
 		gap: 4,
 	},
 
-	tilesets: [DEFAULTTILESET],
+	tilesets: [DEFAULT_TILESET],
 
-	iconsets: [DEFAULTICONSET],
+	iconsets: [DEFAULT_ICONSET],
 
 	paths: [],
 	icons: [],
@@ -180,18 +178,16 @@ let DEFAULTSAVEDATA: saveData = {
 	],
 };
 
-//console.log(JSON.stringify(DEFAULTSAVEDATA.tilesets['default']))
-
-for (let col = 0; col < DEFAULTSAVEDATA.TerrainField.columns; col++) {
-	for (let row = 0; row < DEFAULTSAVEDATA.TerrainField.rows; row++) {
+for (let col = 0; col < DEFAULT_SAVEDATA.TerrainField.columns; col++) {
+	for (let row = 0; row < DEFAULT_SAVEDATA.TerrainField.rows; row++) {
 		let cubeCoords = coordsQToCube('even', col, row);
 		let q = cubeCoords.q;
 		let r = cubeCoords.r;
 		let s = cubeCoords.s;
 
-		DEFAULTSAVEDATA.TerrainField.hexes[genHexId(q, r, s)] = { q: q, r: r, s: s, tile: null };
+		DEFAULT_SAVEDATA.TerrainField.hexes[genHexId(q, r, s)] = { q: q, r: r, s: s, tile: null };
 	}
 }
 
-export default DEFAULTSAVEDATA;
+export default DEFAULT_SAVEDATA;
 export type { saveData };

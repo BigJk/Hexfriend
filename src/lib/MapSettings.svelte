@@ -3,7 +3,7 @@
 	import ColorInputPixi from 'src/components/ColorInputPixi.svelte';
 	import SelectGrid from 'src/components/SelectGrid.svelte';
 
-	import type { saveData } from 'src/lib/defaultSaveData';
+	import type { saveData } from 'src/defaults/defaultSaveData';
 
 	import * as TField from 'src/stores/tfield';
 

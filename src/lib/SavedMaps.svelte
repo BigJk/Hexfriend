@@ -2,7 +2,8 @@
 	import { liveQuery } from 'dexie';
 
 	import { db } from 'src/lib/db';
-	import type { saveData } from 'src/lib/defaultSaveData';
+
+	import type { saveData } from 'src/defaults/defaultSaveData';
 
 	let saves = liveQuery(() => db.mapSaves.toArray());
 

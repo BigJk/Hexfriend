@@ -1,4 +1,4 @@
-const DEFAULTICONSET = JSON.parse(`{
+const DEFAULT_ICONSET = JSON.parse(`{
     "name": "Default",
     "author": "Aidymouse",
     "id": "default",
@@ -101,7 +101,6 @@ const DEFAULTICONSET = JSON.parse(`{
     }
 ]
 
-}`)
+}`);
 
-
-export { DEFAULTICONSET }
+export { DEFAULT_ICONSET };

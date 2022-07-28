@@ -1,5 +1,7 @@
 <script lang="ts">
 	import * as PIXI from 'pixi.js';
+	import type { saveData } from 'src/defaults/defaultSaveData';
+	import DEFAULTSAVEDATA from 'src/defaults/defaultSaveData';
 	import { tick } from 'svelte';
 	import { Container, Pixi } from 'svelte-pixi';
 
@@ -13,8 +15,6 @@
 	import ToolButtons from 'src/lib/ToolButtons.svelte';
 
 	import { db } from 'src/lib/db';
-	import type { saveData } from 'src/lib/defaultSaveData';
-	import DEFAULTSAVEDATA from 'src/lib/defaultSaveData';
 	import { download } from 'src/lib/download2';
 	import { collapseWaveGen } from 'src/lib/terrainGenerator';
 
