@@ -233,14 +233,14 @@ export function coordsCubeToR(indentedRow: 'odd' | 'even', q, r, s) {
 }
 
 function coordsEvenRToCube(col, row) {
-	var q = col - (row + (row & 1)) / 2;
-	var r = row;
+	let q = col - (row + (row & 1)) / 2;
+	let r = row;
 	return { q: q, r: r, s: -q - r };
 }
 
 function coordsOddRToCube(col, row) {
-	var q = col - (row - (row & 1)) / 2;
-	var r = row;
+	let q = col - (row - (row & 1)) / 2;
+	let r = row;
 	return { q: q, r: r, s: -q - r };
 }
 
