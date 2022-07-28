@@ -10,7 +10,7 @@ import { map_type } from 'src/types/settings';
 import type { TerrainHexField } from 'src/types/terrain';
 import type { Tile, Tileset } from 'src/types/tilesets';
 
-import { coords_qToCube, genHexId } from 'src/helpers/hexHelpers';
+import { coordsQToCube, genHexId } from 'src/helpers/hexHelpers';
 
 interface saveData {
 	saveVersion: number;
@@ -184,7 +184,7 @@ let DEFAULTSAVEDATA: saveData = {
 
 for (let col = 0; col < DEFAULTSAVEDATA.TerrainField.columns; col++) {
 	for (let row = 0; row < DEFAULTSAVEDATA.TerrainField.rows; row++) {
-		let cubeCoords = coords_qToCube('even', col, row);
+		let cubeCoords = coordsQToCube('even', col, row);
 		let q = cubeCoords.q;
 		let r = cubeCoords.r;
 		let s = cubeCoords.s;

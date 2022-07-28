@@ -28,7 +28,7 @@
 	import type { Tileset } from 'src/types/tilesets';
 	import { tools } from 'src/types/toolData';
 
-	import { coords_cubeToWorld, getHexPath } from 'src/helpers/hexHelpers';
+	import { coordsCubeToWorld, getHexPath } from 'src/helpers/hexHelpers';
 
 	import CoordsLayer from 'src/layers/CoordsLayer.svelte';
 	import IconLayer from 'src/layers/IconLayer.svelte';

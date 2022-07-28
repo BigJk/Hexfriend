@@ -9,8 +9,8 @@
 	import type { coordinates_data } from 'src/types/data';
 	import type { TerrainHexField } from 'src/types/terrain';
 
-	import { coords_cubeToWorld } from 'src/helpers/hexHelpers';
-	import { coords_cubeToq, coords_cubeTor } from 'src/helpers/hexHelpers';
+	import { coordsCubeToWorld } from 'src/helpers/hexHelpers';
+	import { coordsCubeToR, coordsCubeToq } from 'src/helpers/hexHelpers';
 
 	interface coordText {
 		pixiText: PIXI.Text;
@@ -78,7 +78,7 @@
 		let text = texts[hexId];
 
 		let idParts = breakDownHexID(hexId);
-		let newPos = coords_cubeToWorld(idParts.q, idParts.r, idParts.s, tfield.orientation, tfield.hexWidth, tfield.hexHeight, null);
+		let newPos = coordsCubeToWorld(idParts.q, idParts.r, idParts.s, tfield.orientation, tfield.hexWidth, tfield.hexHeight, null);
 
 		text.pixiText.position.x = newPos.x;
 		text.pixiText.position.y = newPos.y + tfield.hexHeight / 2 - data_coordinates.gap;
@@ -106,8 +106,8 @@
 				let cube = breakDownHexID(hexId);
 				let idParts =
 					tfield.orientation == 'flatTop'
-						? coords_cubeToq(tfield.raised, cube.q, cube.r, cube.s)
-						: coords_cubeTor(tfield.raised, cube.q, cube.r, cube.s);
+						? coordsCubeToq(tfield.raised, cube.q, cube.r, cube.s)
+						: coordsCubeToR(tfield.raised, cube.q, cube.r, cube.s);
 
 				texts[hexId].parts = [idParts.col, idParts.row];
 				texts[hexId].pixiText.text = `${texts[hexId].parts[0]}${data_coordinates.seperator}${texts[hexId].parts[1]}`;

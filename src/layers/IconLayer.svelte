@@ -9,7 +9,7 @@
 	import type { TerrainHexField } from 'src/types/terrain';
 	import type { tools } from 'src/types/toolData';
 
-	import { coords_cubeToWorld, coords_worldToCube } from 'src/helpers/hexHelpers';
+	import { coordsCubeToWorld, coordsWorldToCube } from 'src/helpers/hexHelpers';
 
 	export let icons = [];
 
@@ -64,8 +64,8 @@
 		let iconY = Panning.curWorldY();
 
 		if (data_icon.snapToHex) {
-			let clickedHexCoords = coords_worldToCube(iconX, iconY, tfield.orientation, tfield.hexWidth, tfield.hexHeight, tfield.raised);
-			let iconCoords = coords_cubeToWorld(
+			let clickedHexCoords = coordsWorldToCube(iconX, iconY, tfield.orientation, tfield.hexWidth, tfield.hexHeight, tfield.raised);
+			let iconCoords = coordsCubeToWorld(
 				clickedHexCoords.q,
 				clickedHexCoords.r,
 				clickedHexCoords.s,

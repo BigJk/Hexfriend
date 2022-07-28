@@ -9,7 +9,7 @@
 	import type { path } from 'src/types/path';
 	import type { TerrainHexField } from 'src/types/terrain';
 
-	import { coords_cubeToWorld, coords_worldToCube, cube_round } from 'src/helpers/hexHelpers';
+	import { coordsCubeToWorld, coordsWorldToCube, cubeRound } from 'src/helpers/hexHelpers';
 
 	export let controls;
 	export let selectedTool;
@@ -77,7 +77,7 @@
 		let hW = tfield.hexWidth;
 		let hH = tfield.hexHeight;
 
-		let clickedCoords = coords_worldToCube(
+		let clickedCoords = coordsWorldToCube(
 			Panning.curWorldX(),
 			Panning.curWorldY(),
 			tfield.orientation,
@@ -85,7 +85,7 @@
 			tfield.hexHeight,
 			tfield.raised
 		);
-		let centerCoords = coords_cubeToWorld(
+		let centerCoords = coordsCubeToWorld(
 			clickedCoords.q,
 			clickedCoords.r,
 			clickedCoords.s,

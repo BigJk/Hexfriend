@@ -85,7 +85,7 @@ function AxialToCube(q: number, r: number): cubeCoords {
 	return { q: q, r: r, s: -q - r };
 }
 
-export function cube_round(frac: cubeCoords): cubeCoords {
+export function cubeRound(frac: cubeCoords): cubeCoords {
 	let q = Math.round(frac.q);
 	let r = Math.round(frac.r);
 	let s = Math.round(frac.s);
@@ -105,7 +105,7 @@ export function cube_round(frac: cubeCoords): cubeCoords {
 	return { q: q, r: r, s: s };
 }
 
-export function coords_worldToCube(
+export function coordsWorldToCube(
 	worldX: number,
 	worldY: number,
 	hexOrientation: hexOrientation,
@@ -121,7 +121,7 @@ export function coords_worldToCube(
 
 		let r = ((2 * worldY) / hexHeight - q) / 2;
 
-		let roundedCoords = cube_round(AxialToCube(q, r));
+		let roundedCoords = cubeRound(AxialToCube(q, r));
 
 		return roundedCoords;
 	} else if (hexOrientation == 'pointyTop') {
@@ -130,7 +130,7 @@ export function coords_worldToCube(
 		let r = worldY / (hexHeight * 0.75);
 		let q = ((2 * worldX) / hexWidth - r) / 2;
 
-		let roundedCoords = cube_round(AxialToCube(q, r));
+		let roundedCoords = cubeRound(AxialToCube(q, r));
 
 		if (raised == 'even' && (roundedCoords.r & 1) == 1) {
 			//roundedCoords.q -= 1
@@ -141,7 +141,7 @@ export function coords_worldToCube(
 	}
 }
 
-export function coords_cubeToWorld(
+export function coordsCubeToWorld(
 	q: number,
 	r: number,
 	s: number,
@@ -179,74 +179,74 @@ export function coords_cubeToWorld(
 
 // EVEN Q = second column has raised tile - the DEFAULT for new maps
 // ODD Q = first column has raised tile
-function coords_cubeToEvenq(q: number, r: number, s) {
+function coordsCubeToEvenQ(q: number, r: number, s) {
 	let col = q;
 	let row = r + (q + (q & 1)) / 2;
 	return { col: col, row: row };
 }
 
-function coords_cubeToOddq(q: number, r: number, s) {
+function coordsCubeToOddQ(q: number, r: number, s) {
 	let col = q;
 	let row = r + (q - (q & 1)) / 2;
 	return { col: col, row: row };
 }
 
-export function coords_cubeToq(raisedColumn: 'odd' | 'even', q: number, r: number, s: number) {
-	if (raisedColumn == 'even') return coords_cubeToEvenq(q, r, s);
-	return coords_cubeToOddq(q, r, s);
+export function coordsCubeToq(raisedColumn: 'odd' | 'even', q: number, r: number, s: number) {
+	if (raisedColumn == 'even') return coordsCubeToEvenQ(q, r, s);
+	return coordsCubeToOddQ(q, r, s);
 }
 
-function coords_evenqToCube(col: number, row: number) {
+function coordsEvenQToCube(col: number, row: number) {
 	let q = col;
 	let r = row - (col + (col & 1)) / 2;
 	return { q: q, r: r, s: -q - r };
 }
 
-function coords_oddqToCube(col: number, row: number) {
+function coordsOddQToCube(col: number, row: number) {
 	let q = col;
 	let r = row - (col - (col & 1)) / 2;
 	return { q: q, r: r, s: -q - r };
 }
 
-export function coords_qToCube(oddOrEven: 'odd' | 'even', col: number, row: number) {
-	if (oddOrEven == 'even') return coords_evenqToCube(col, row);
-	return coords_oddqToCube(col, row);
+export function coordsQToCube(oddOrEven: 'odd' | 'even', col: number, row: number) {
+	if (oddOrEven == 'even') return coordsEvenQToCube(col, row);
+	return coordsOddQToCube(col, row);
 }
 
 // EVEN R = first row is indented
 // ODD R = second row is indented
-function coords_cubeToEvenr(q, r, s) {
+function coordsCubeToEvenR(q, r, s) {
 	let col = q + (r + (r & 1)) / 2;
 	let row = r;
 	return { col: col, row: row };
 }
 
-function coords_cubeToOddr(q, r, s) {
+function coordsCubeToOddR(q, r, s) {
 	let col = q + (r - (r & 1)) / 2;
 	let row = r;
 	return { col: col, row: row };
 }
 
-export function coords_cubeTor(indentedRow: 'odd' | 'even', q, r, s) {
-	if (indentedRow == 'even') return coords_cubeToEvenr(q, r, s);
-	return coords_cubeToOddr(q, r, s);
+export function coordsCubeToR(indentedRow: 'odd' | 'even', q, r, s) {
+	if (indentedRow == 'even') return coordsCubeToEvenR(q, r, s);
+	return coordsCubeToOddR(q, r, s);
 }
 
-function coords_evenrToCube(col, row) {
+function coordsEvenRToCube(col, row) {
 	var q = col - (row + (row & 1)) / 2;
 	var r = row;
 	return { q: q, r: r, s: -q - r };
 }
 
-function coords_oddrToCube(col, row) {
+function coordsOddRToCube(col, row) {
 	var q = col - (row - (row & 1)) / 2;
 	var r = row;
 	return { q: q, r: r, s: -q - r };
 }
 
-export function coords_rToCube(indentedRow: 'odd' | 'even', col, row) {
-	if (indentedRow == 'even') return coords_evenrToCube(col, row);
-	return coords_oddrToCube(col, row);
+export function coordsRToCube(indentedRow: 'odd' | 'even', col, row) {
+	if (indentedRow == 'even') return coordsEvenRToCube(col, row);
+	return coordsOddRToCube(col, row);
 }
 
 // ODD R = second row is indented
