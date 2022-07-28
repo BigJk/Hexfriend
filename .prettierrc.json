@@ -4,7 +4,14 @@
   "jsxSingleQuote": true,
   "singleQuote": true,
   "tabWidth": 4,
-  "importOrder": [],
+  "importOrder": [
+    "^src/lib/(.*).svelte$",
+    "^src/lib/(.*)$",
+    "^src/types/(.*)$",
+    "^src/helpers/(.*)$",
+    "^src/layers/(.*)$",
+    "^src/panels/(.*)$"
+  ],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }

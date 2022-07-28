@@ -1,40 +1,42 @@
 <script lang="ts">
-	import { coords_cubeToWorld, getHexPath } from './helpers/hexHelpers';
-	import CoordsLayer from './layers/CoordsLayer.svelte';
-	import IconLayer from './layers/IconLayer.svelte';
-	import PathLayer from './layers/PathLayer.svelte';
-	import TextLayer from './layers/TextLayer.svelte';
-	import Controls from './lib/ControlTooltips.svelte';
-	import IconsetCreator from './lib/IconsetCreator.svelte';
-	import MapSettings from './lib/MapSettings.svelte';
-	import SavedMaps from './lib/SavedMaps.svelte';
-	// Layers
-	import TerrainField from './lib/TerrainField.svelte';
-	import TerrainGenerator from './lib/TerrainGenerator.svelte';
-	import TilesetCreator from './lib/TilesetCreator.svelte';
-	// Like, whatever
-	import ToolButtons from './lib/ToolButtons.svelte';
-	import { db } from './lib/db';
-	import type { saveData } from './lib/defaultSaveData';
-	// Data
-	import DEFAULTSAVEDATA from './lib/defaultSaveData';
-	import { download } from './lib/download2';
-	// Methods
-	import { collapseWaveGen } from './lib/terrainGenerator';
-	import IconPanel from './panels/IconPanel.svelte';
-	import PathPanel from './panels/PathPanel.svelte';
-	// Panels
-	import TerrainPanel from './panels/TerrainPanel.svelte';
-	import TextPanel from './panels/TextPanel.svelte';
-	import { coord_system } from './types/cordinates';
-	import type { coordinates_data, icon_data, path_data, terrain_data, text_data } from './types/data';
-	import type { Iconset } from './types/icon';
-	import type { TerrainHexField } from './types/terrain';
-	import type { Tileset } from './types/tilesets';
-	import { tools } from './types/toolData';
 	import * as PIXI from 'pixi.js';
 	import { tick } from 'svelte';
 	import { Container, Pixi } from 'svelte-pixi';
+
+	import Controls from 'src/lib/ControlTooltips.svelte';
+	import IconsetCreator from 'src/lib/IconsetCreator.svelte';
+	import MapSettings from 'src/lib/MapSettings.svelte';
+	import SavedMaps from 'src/lib/SavedMaps.svelte';
+	import TerrainField from 'src/lib/TerrainField.svelte';
+	import TerrainGenerator from 'src/lib/TerrainGenerator.svelte';
+	import TilesetCreator from 'src/lib/TilesetCreator.svelte';
+	import ToolButtons from 'src/lib/ToolButtons.svelte';
+
+	import { db } from 'src/lib/db';
+	import type { saveData } from 'src/lib/defaultSaveData';
+	import DEFAULTSAVEDATA from 'src/lib/defaultSaveData';
+	import { download } from 'src/lib/download2';
+	import * as Panning from 'src/lib/panning';
+	import { collapseWaveGen } from 'src/lib/terrainGenerator';
+
+	import { coord_system } from 'src/types/cordinates';
+	import type { coordinates_data, icon_data, path_data, terrain_data, text_data } from 'src/types/data';
+	import type { Iconset } from 'src/types/icon';
+	import type { TerrainHexField } from 'src/types/terrain';
+	import type { Tileset } from 'src/types/tilesets';
+	import { tools } from 'src/types/toolData';
+
+	import { coords_cubeToWorld, getHexPath } from 'src/helpers/hexHelpers';
+
+	import CoordsLayer from 'src/layers/CoordsLayer.svelte';
+	import IconLayer from 'src/layers/IconLayer.svelte';
+	import PathLayer from 'src/layers/PathLayer.svelte';
+	import TextLayer from 'src/layers/TextLayer.svelte';
+
+	import IconPanel from 'src/panels/IconPanel.svelte';
+	import PathPanel from 'src/panels/PathPanel.svelte';
+	import TerrainPanel from 'src/panels/TerrainPanel.svelte';
+	import TextPanel from 'src/panels/TextPanel.svelte';
 
 	/* STATE */
 
@@ -76,80 +78,6 @@
 	let loadedTilesets: Tileset[];
 	let loadedIconsets;
 	let tfield: TerrainHexField;
-
-	/* PANNING */
-	let pan = {
-		panning: false,
-
-		oldX: 0,
-		oldY: 0,
-
-		offsetX: 0,
-		offsetY: 0,
-
-		screenX: 0,
-		screenY: 0,
-
-		zoomScale: 1,
-
-		get worldX() {
-			return (this.screenX / PIXI.settings.RESOLUTION - this.offsetX) / this.zoomScale;
-		},
-
-		get worldY() {
-			return (this.screenY / PIXI.settings.RESOLUTION - this.offsetY) / this.zoomScale;
-		},
-
-		startPan: function (e: PointerEvent) {
-			pan.panning = true;
-			pan.oldX = e.clientX;
-			pan.oldY = e.clientY;
-		},
-
-		handle: function (e: PointerEvent) {
-			pan.screenX = e.clientX; //e.detail.data.global.x
-			pan.screenY = e.clientY; //e.detail.data.global.y
-
-			if (pan.panning) {
-				pan.offsetX += (e.clientX - pan.oldX) / PIXI.settings.RESOLUTION; //e.detail.data.global.x - pan.oldX
-				pan.offsetY += (e.clientY - pan.oldY) / PIXI.settings.RESOLUTION; //e.detail.data.global.y - pan.oldY
-
-				pan.oldX = e.clientX; //e.detail.data.global.x
-				pan.oldY = e.clientY; //e.detail.data.global.y
-			}
-		},
-
-		endPan: function () {
-			pan.panning = false;
-		},
-
-		zoom: function (e: WheelEvent) {
-			let xBeforeZoom = pan.worldX;
-			let yBeforeZoom = pan.worldY;
-
-			let zoomFactor = 1.15;
-
-			if (Math.abs(e.deltaY) < 3) {
-				zoomFactor = 1.025;
-			}
-
-			if (e.deltaY < 0) {
-				pan.zoomScale *= zoomFactor;
-			} else {
-				pan.zoomScale /= zoomFactor;
-			}
-
-			// Move the screen
-			let xAfterZoom = pan.worldX;
-			let yAfterZoom = pan.worldY;
-
-			let dx = (xAfterZoom - xBeforeZoom) * pan.zoomScale;
-			let dy = (yAfterZoom - yBeforeZoom) * pan.zoomScale;
-
-			pan.offsetX += dx / PIXI.settings.RESOLUTION;
-			pan.offsetY += dy / PIXI.settings.RESOLUTION;
-		},
-	};
 
 	let controls = {
 		mouseDown: [false, false, false, false, false],
@@ -253,7 +181,7 @@
 	function pointerdown(e: PointerEvent) {
 		controls.mouseDown[e.button] = true;
 
-		if (controls.mouseDown[2]) pan.startPan(e);
+		if (controls.mouseDown[2]) Panning.handlers.startPan(e);
 
 		switch (selectedTool) {
 			case tools.TERRAIN:
@@ -282,7 +210,7 @@
 	function pointerup(e: PointerEvent) {
 		controls.mouseDown[e.button] = false;
 
-		if (!controls.mouseDown[2]) pan.endPan();
+		if (!controls.mouseDown[2]) Panning.handlers.endPan();
 
 		switch (selectedTool) {
 			case 'text':
@@ -292,7 +220,7 @@
 	}
 
 	function pointermove(e: PointerEvent) {
-		pan.handle(e);
+		Panning.handlers.handle(e);
 
 		switch (selectedTool) {
 			case tools.TERRAIN:
@@ -414,23 +342,27 @@
 			// Center the map
 			let tf = loadedSave.TerrainField;
 
-			pan.zoomScale = 1 / PIXI.settings.RESOLUTION;
-			if (tf.orientation == 'flatTop') {
-				let mapWidth = tf.columns * tf.hexWidth * 0.75 + tf.hexWidth * 0.25;
-				let mapHeight = (tf.rows - 1) * tf.hexHeight - tf.hexHeight * 0.5;
+			Panning.store.update((pan) => {
+				pan.zoomScale = 1 / PIXI.settings.RESOLUTION;
+				if (tf.orientation == 'flatTop') {
+					let mapWidth = tf.columns * tf.hexWidth * 0.75 + tf.hexWidth * 0.25;
+					let mapHeight = (tf.rows - 1) * tf.hexHeight - tf.hexHeight * 0.5;
 
-				pan.offsetX = window.innerWidth / 2 - (mapWidth / 2) * pan.zoomScale;
-				pan.offsetY = window.innerHeight / 2 - (mapHeight / 2) * pan.zoomScale;
-			} else {
-				let mapHeight = tf.rows * tf.hexHeight * 0.75 + tf.hexHeight * 0.25;
-				let mapWidth = (tf.columns - 1) * tf.hexWidth - tf.hexWidth * 0.5;
+					pan.offsetX = window.innerWidth / 2 - (mapWidth / 2) * pan.zoomScale;
+					pan.offsetY = window.innerHeight / 2 - (mapHeight / 2) * pan.zoomScale;
+				} else {
+					let mapHeight = tf.rows * tf.hexHeight * 0.75 + tf.hexHeight * 0.25;
+					let mapWidth = (tf.columns - 1) * tf.hexWidth - tf.hexWidth * 0.5;
 
-				pan.offsetX = -(window.innerWidth / 2 - (mapWidth / 2) * pan.zoomScale);
-				pan.offsetY = -(window.innerHeight / 2 - (mapHeight / 2) * pan.zoomScale);
-			}
+					pan.offsetX = -(window.innerWidth / 2 - (mapWidth / 2) * pan.zoomScale);
+					pan.offsetY = -(window.innerHeight / 2 - (mapHeight / 2) * pan.zoomScale);
+				}
 
-			pan.offsetX /= PIXI.settings.RESOLUTION;
-			pan.offsetY /= PIXI.settings.RESOLUTION;
+				pan.offsetX /= PIXI.settings.RESOLUTION;
+				pan.offsetY /= PIXI.settings.RESOLUTION;
+
+				return pan;
+			});
 
 			loading = false;
 			await tick();
@@ -491,13 +423,18 @@
 
 	loadSave(JSON.parse(JSON.stringify(DEFAULTSAVEDATA)), null); // Same as creating a new map
 
+	let pan = {};
+	Panning.store.subscribe((newPan) => {
+		pan = newPan;
+	});
+
 	/* HOT ZONE */
 </script>
 
 {#if appState == 'normal' && !loading}
 	<main
 		on:contextmenu|preventDefault={(e) => {}}
-		on:wheel={pan.zoom}
+		on:wheel={Panning.handlers.zoom}
 		on:pointerdown={pointerdown}
 		on:pointermove={pointermove}
 		on:pointerup={pointerup}
@@ -507,7 +444,6 @@
 				<TerrainField
 					bind:this={comp_terrainField}
 					bind:data_terrain
-					bind:pan
 					{controls}
 					{L}
 					bind:tfield
@@ -530,8 +466,8 @@
 				/>
 
 				<!--
-          Needs Optimization badly
-        -->
+          			Needs Optimization badly
+        		-->
 				<CoordsLayer bind:this={comp_coordsLayer} bind:data_coordinates tfield={loadedSave.TerrainField} />
 
 				<TextLayer bind:this={comp_textLayer} bind:texts={loadedSave.texts} bind:data_text {pan} />
@@ -559,7 +495,7 @@
 		<ToolButtons bind:selectedTool bind:hexOrientation={tfield.orientation} />
 
 		<!--
-    
+
     -->
 	</div>
 
@@ -618,7 +554,7 @@
 		}}
 	/>
 
-	<Controls bind:pan {selectedTool} {data_terrain} {data_icon} {data_path} {data_text} />
+	<Controls {selectedTool} {data_terrain} {data_icon} {data_path} {data_text} />
 {:else if appState == 'tilesetCreator'}
 	<TilesetCreator bind:appState />
 {:else if appState == 'iconsetCreator'}
