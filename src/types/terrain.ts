@@ -1,5 +1,5 @@
-import type { map_type } from './settings';
-import type { Tile } from './tilesets';
+import type { map_type } from 'src/types/settings';
+import type { Tile } from 'src/types/tilesets';
 
 // Hexes are the data that get drawn as terrain
 export interface TerrainHex {

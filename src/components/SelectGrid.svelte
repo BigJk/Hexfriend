@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { capitalize } from '../helpers/string';
 	import { createEventDispatcher } from 'svelte';
+
+	import { capitalize } from 'src/helpers/string';
 
 	let dispatch = createEventDispatcher();
 

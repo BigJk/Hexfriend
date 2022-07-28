@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { genHexId, getNeighbours } from '../helpers/hexHelpers';
-	import { download } from './download2';
+	import { download } from 'src/lib/download2';
 
 	import * as TField from 'src/stores/tfield';
 
 	import type { TerrainHex, TerrainHexField } from 'src/types/terrain';
 	import type { Tile, Tileset } from 'src/types/tilesets';
+
+	import { genHexId, getNeighbours } from 'src/helpers/hexHelpers';
 
 	function rand(min: number, max: number): number {
 		min = Math.ceil(min);

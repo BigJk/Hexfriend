@@ -1,14 +1,16 @@
 <script lang="ts">
-	import Checkbox from '../components/Checkbox.svelte';
-	import ColorInputPixi from '../components/ColorInputPixi.svelte';
-	import SelectGrid from '../components/SelectGrid.svelte';
-	import * as TField from '../stores/tfield';
-	import type { coordinates_data } from '../types/data';
-	import { map_type } from '../types/settings';
-	import type { saveData } from './defaultSaveData';
+	import Checkbox from 'src/components/Checkbox.svelte';
+	import ColorInputPixi from 'src/components/ColorInputPixi.svelte';
+	import SelectGrid from 'src/components/SelectGrid.svelte';
+
+	import type { saveData } from 'src/lib/defaultSaveData';
+
+	import * as TField from 'src/stores/tfield';
 
 	import { coord_system } from 'src/types/cordinates';
+	import type { coordinates_data } from 'src/types/data';
 	import type { Iconset } from 'src/types/icon';
+	import { map_type } from 'src/types/settings';
 	import type { TerrainHexField } from 'src/types/terrain';
 	import type { Tileset } from 'src/types/tilesets';
 
