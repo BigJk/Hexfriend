@@ -18,7 +18,7 @@
 
 	export let symbolTextureLookupTable;
 
-	let tfield = {};
+	let tfield: TerrainHexField;
 	TField.store.subscribe((newTField) => {
 		tfield = newTField;
 	});

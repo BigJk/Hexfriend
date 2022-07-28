@@ -1,7 +1,5 @@
 <script lang="ts">
 	import * as PIXI from 'pixi.js';
-	import type { saveData } from 'src/defaults/defaultSaveData';
-	import DEFAULTSAVEDATA from 'src/defaults/defaultSaveData';
 	import { tick } from 'svelte';
 	import { Container, Pixi } from 'svelte-pixi';
 
@@ -18,13 +16,16 @@
 	import { download } from 'src/lib/download2';
 	import { collapseWaveGen } from 'src/lib/terrainGenerator';
 
+	import type { saveData } from 'src/defaults/defaultSaveData';
+	import DEFAULTSAVEDATA from 'src/defaults/defaultSaveData';
+
 	import * as Panning from 'src/stores/panning';
 	import * as TField from 'src/stores/tfield';
 
 	import { coord_system } from 'src/types/cordinates';
 	import type { coordinates_data, icon_data, path_data, terrain_data, text_data } from 'src/types/data';
 	import type { Iconset } from 'src/types/icon';
-	import type { TerrainHexField } from 'src/types/terrain';
+	import type { TerrainHex, TerrainHexField } from 'src/types/terrain';
 	import type { Tileset } from 'src/types/tilesets';
 	import { tools } from 'src/types/toolData';
 
@@ -52,7 +53,7 @@
 
 	let offsetContainer = new PIXI.Container();
 
-	let tfield = {};
+	let tfield: TerrainHexField;
 	TField.store.subscribe((newTField) => {
 		tfield = newTField;
 	});

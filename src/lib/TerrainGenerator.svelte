@@ -211,7 +211,7 @@
 	export let comp_terrainField;
 	export let showTerrainGenerator: boolean;
 
-	let tfield = {};
+	let tfield: TerrainHexField;
 	TField.store.subscribe((newTField) => {
 		tfield = newTField;
 	});

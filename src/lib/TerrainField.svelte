@@ -33,7 +33,7 @@
 	export let controls;
 	export let L;
 
-	let tfield = {};
+	let tfield: TerrainHexField;
 	TField.store.subscribe((newTField) => {
 		tfield = newTField;
 	});

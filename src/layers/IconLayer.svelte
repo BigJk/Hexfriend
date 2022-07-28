@@ -20,7 +20,7 @@
 	export let data_icon: icon_data;
 	export let iconTextureLookupTable;
 
-	let tfield = {};
+	let tfield: TerrainHexField;
 	TField.store.subscribe((newTField) => {
 		tfield = newTField;
 	});

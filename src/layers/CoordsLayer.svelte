@@ -29,7 +29,7 @@
 
 	export let data_coordinates: coordinates_data;
 
-	let tfield = {};
+	let tfield: TerrainHexField;
 	TField.store.subscribe((newTField) => {
 		tfield = newTField;
 	});

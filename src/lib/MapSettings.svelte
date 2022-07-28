@@ -43,7 +43,7 @@
 
 	let exportType: 'Export As...' | 'image/png' | 'application/json' = 'Export As...';
 
-	let tfield = {};
+	let tfield: TerrainHexField;
 	TField.store.subscribe((newTField) => {
 		tfield = newTField;
 	});

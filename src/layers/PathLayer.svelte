@@ -18,7 +18,7 @@
 
 	export let paths: path[] = [];
 
-	let tfield = {};
+	let tfield: TerrainHexField;
 	TField.store.subscribe((newTField) => {
 		tfield = newTField;
 	});
